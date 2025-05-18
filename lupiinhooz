@@ -203,7 +203,7 @@ Frame_5.Position = UDim2.new(0, 0, 0.939975619, 0)
 Frame_5.Size = UDim2.new(0.975395918, 0, 0, 0)
 
 UIAspectRatioConstraint_12.Parent = Frame_5
-UIAspectRatioConstraint_12.AspectRatio = inf
+UIAspectRatioConstraint_12.AspectRatio = 1
 
 linha.Name = "linha"
 linha.Parent = ScreenGui
