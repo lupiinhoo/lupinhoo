@@ -22,7 +22,7 @@ local utility = {}
 
 
 configs_menu = {
-	["OpenMenu"] = Enum.KeyCode.E
+	["OpenMenu"] = Enum.KeyCode.Insert
 }
 
 -- themes
@@ -233,7 +233,7 @@ do
 			Parent = game.CoreGui,
 		}, 
 		{
-			
+
 			utility:Create("ImageLabel", {
 				Name = "Main",
 				BackgroundTransparency = 1,
