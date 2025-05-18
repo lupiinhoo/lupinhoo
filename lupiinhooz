@@ -211,6 +211,7 @@ Frame_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame_6.BorderSizePixel = 0
 Frame_6.Position = UDim2.new(0.25133118, 0, 0.247563347, 0)
 Frame_6.Size = UDim2.new(0.51235956, 0, 0.51121074, 0)
+Frame_6.ZIndex = 6
 
 UICorner_8.Parent = Frame_6
 
