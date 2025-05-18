@@ -139,7 +139,7 @@ ContextT:BindAction("SprintInfinity", ActiveInfinitySprint, false, Enum.KeyCode.
 
 
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lupiinhoo/lupinhoo/refs/heads/main/WALKERS", true))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lupiinhoo/lupinhoo/refs/heads/main/sourcewalkers", true))()
 
 local venyx = library.new("Synergy Scripts - v1.0", 5013109572)
 
