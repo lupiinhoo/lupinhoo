@@ -1,0 +1,448 @@
+local ContextT = game:GetService("ContextActionService")
+local Action = game:GetService("ContextActionService")
+local PlayersService = game:GetService("Players")
+local LocalPlayer = PlayersService.LocalPlayer
+
+
+local myMenu = nil
+
+
+configs_menu = {
+	["OpenMenu"] = Enum.KeyCode.Insert
+}
+
+local paises = {
+	"al",
+	"br",
+	"af",
+	"dz",
+	"ad",
+	"ao",
+	"ar",
+	"am",
+	"au",
+	"at",
+	"az",
+	"bs",
+	"bh",
+	"bd",
+	"by",
+	"be",
+	"bj",
+	"bz",
+	"bm",
+	"bt",
+	"bo",
+	"ba",
+	"bn",
+	"bg"
+}
+
+local BallEspEnabled = false
+
+local function EspBall()
+	BallEspEnabled = not BallEspEnabled
+	local ball = game.workspace:FindFirstChild("ball")
+
+	local High = Instance.new("Highlight")
+
+	if BallEspEnabled then
+		High.Parent = ball
+	else
+		for i,v in pairs(ball:GetChildren()) do
+			if v:IsA("Highlight") then
+				game.Debris:AddItem(v, -1)
+			end
+		end
+	end
+
+	return BallEspEnabled
+end
+
+local function IsBolaPlayer()
+	local ball = game.Workspace:FindFirstChild("ball")
+
+
+	local playerWeld: Weld = ball:FindFirstChild("playerWeld")
+
+	local PlayersService = game:GetService("Players")
+	local LocalPlayer = PlayersService.LocalPlayer
+	local ch = LocalPlayer.Character
+	local hu = ch:FindFirstChild("HumanoidRootPart")
+	if playerWeld and playerWeld.Part0 == hu then
+		return true
+	else
+		return false
+	end
+end
+
+
+local function RemoverBarreiras()
+	local Ignore = game.workspace:FindFirstChild("Ignore")
+	local Bordes = Ignore:FindFirstChild("Borders")
+	local GKLimits = Ignore:FindFirstChild("GKLimits2")
+
+	local PlayersService = game:GetService("Players")
+	local LocalPlayer = PlayersService.LocalPlayer
+	local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	local humanRoot = character:FindFirstChild("HumanoidRootPart")
+
+	if humanRoot then
+		humanRoot.CanCollide = false
+	end
+
+	game.Debris:AddItem(Bordes,-1)
+	game.Debris:AddItem(GKLimits, -1)
+end
+
+
+local function ActiveInfinitySprint(_, state)
+
+
+	local Enabled
+
+	local PlayerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
+	if PlayerGui then
+		local StaminaGui = PlayerGui:FindFirstChild("Stamina")
+		if StaminaGui then
+			Enabled = StaminaGui:FindFirstChild("Frame"):FindFirstChild("Enabled")
+			if not Enabled then
+				return
+			end
+		end
+	end
+
+	if not EnabledSprint then
+		Enabled.Value = true
+		return
+	end
+
+	if state == Enum.UserInputState.Begin then
+		task.wait(0.1)
+		Enabled.Value = false
+	end
+end
+
+local autoPegarEnabled = false
+
+local function AutoPegarBola()
+	autoPegarEnabled = not autoPegarEnabled
+
+
+	repeat
+		game:GetService("ReplicatedStorage").Remotes.tcelloc:FireServer(1)
+		task.wait(1)
+	until autoPegarEnabled == false
+end
+
+ContextT:BindAction("SprintInfinity", ActiveInfinitySprint, false, Enum.KeyCode.LeftShift)
+
+
+
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lupiinhoo/lupinhoo/refs/heads/main/WALKERS", true))()
+
+local venyx = library.new("Synergy Scripts - v1.0", 5013109572)
+
+local Player = game:GetService("Players").LocalPlayer
+
+function DestroyGui(_,state)
+	if state == Enum.UserInputState.Begin then
+		myMenu.Enabled = not myMenu.Enabled
+	end
+end
+
+ContextT:BindAction("MenuOpenClose", DestroyGui, false, configs_menu["OpenMenu"])
+
+local themes = {
+	Background = Color3.fromRGB(24, 24, 24),
+	Glow = Color3.fromRGB(0, 0, 0),
+	Accent = Color3.fromRGB(10, 10, 10),
+	LightContrast = Color3.fromRGB(20, 20, 20),
+	DarkContrast = Color3.fromRGB(14, 14, 14),  
+	TextColor = Color3.fromRGB(255, 255, 255)
+}
+
+local page = venyx:addPage("Others", 5012544693)
+local section1 = page:addSection("Player")
+local section2 = page:addSection("Bola")
+local section3 = page:addSection("Cor Personagem")
+local section4 = page:addSection("Outros")
+local section5 = page:addSection("Goleiro")
+
+section2:addToggle("Esp Bola", nil, function(value)
+	local newStatus = EspBall()
+end)
+
+
+section1:addToggle("Correr Infinitamente", nil, function(value)
+	EnabledSprint = value
+end)
+
+section2:addToggle("Auto Pegar Bola", nil, function(value)
+	autoPegarEnabled = value
+	AutoPegarBola()
+end)
+
+local ChutarPraCimaEnabled = false
+local ChutarCimaKey = Enum.KeyCode.G
+
+local function ChutarPraCima()
+
+	if not ChutarPraCimaEnabled then return end
+
+	local args = {
+		[1] = Vector3.new(0.03918468952178955, 0.9983994364738464, 0.040780361741781235),
+		[2] = CFrame.new(58.54142761230469, 1.4615201950073242, -44.778324127197266) * CFrame.Angles(3.141568422317505, -1.4783904552459717, 3.141566753387451),
+		[3] = 1.4841890335083008,
+		[4] = Vector3.new(0.043773651123046875, 0.9981648921966553, 0.041843414306640625),
+		[5] = false,
+		[6] = false,
+		[7] = "None",
+		[9] = false
+	}
+
+	game:GetService("ReplicatedStorage").Remotes.ShootTheBall:FireServer(unpack(args))
+
+end
+
+
+ContextT:BindAction("ChutarCima", ChutarPraCima, false, ChutarCimaKey)
+
+section2:addToggle("Chutar Pra Cima", nil, function(value)
+	ChutarPraCimaEnabled = value
+end)
+
+
+section2:addKeybind("Tecla Chutar pra Cima", Enum.KeyCode.G, function(a,key)
+	ChutarPraCima()
+	venyx:toggle()
+end, function(a)
+	ChutarCimaKey = a.KeyCode
+end)
+
+local AutoDibleEnabled = false
+
+local function AutoDible()
+	if not AutoDibleEnabled then return end
+
+	repeat
+		local args = {
+			[1] = "Deke"
+		}
+
+		game:GetService("ReplicatedStorage").Remotes.Action:FireServer(unpack(args))
+		task.wait(1)
+	until not AutoDibleEnabled
+
+end
+
+local AutoPuloEnabled = false
+local AutoPuloVelocity = 1
+
+local function AutoPulo()
+	if not AutoPuloEnabled then return end
+
+	repeat
+		
+		local args = {
+			[1] = "Header"
+		}
+
+		game:GetService("ReplicatedStorage").Remotes.Action:FireServer(unpack(args))
+		
+		task.wait(AutoPuloVelocity)
+	until not AutoPuloEnabled
+
+end
+
+
+section1:addToggle("Auto Dible", nil, function(value)
+	AutoDibleEnabled = value
+	AutoDible()
+end)
+
+section1:addToggle("Auto Pulo", nil, function(value)
+	AutoPuloEnabled = value
+	AutoPulo()
+end)
+
+section1:addSlider("Velocidade do Pulo", 0.3, 0.1, 5, function(value)
+	AutoPuloVelocity = value
+end)
+
+
+local setNewPaisEnabled = false
+
+local function SetarNovoPais()
+	if not setNewPaisEnabled then return end
+
+	repeat
+		
+		for i,v in pairs(paises) do
+			local args = {
+				[1] = v
+			}
+
+			game:GetService("ReplicatedStorage").Remotes.Country:FireServer(unpack(args))
+			task.wait(0.1)
+		end
+		task.wait(0.1)
+	until not setNewPaisEnabled
+end
+
+section4:addToggle("Ficar Alterando Pais", nil, function(value)
+	setNewPaisEnabled = value
+	SetarNovoPais()
+end)
+
+local BugarJogoEnabled = false
+
+local function BugarJogo()
+	if not BugarJogoEnabled then return end
+	
+	
+	repeat
+		
+		local PlayersService = game:GetService("Players")
+		local LocalPlayer = PlayersService.LocalPlayer
+
+		local CH = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+		local HM = CH:FindFirstChild("HumanoidRootPart")
+
+		local args = {
+			[1] = Vector3.new(HM.Position),
+			[2] = CFrame.new(70.45144653320312, 1.4615211486816406, 36.23537063598633),
+			[3] = 0.03154921531677246,
+			[4] = Vector3.new(-0.5878452062606812, -0.7898125648498535, -0.1750260442495346),
+			[5] = false,
+			[6] = false,
+			[7] = "None",
+			[9] = false
+		}
+
+		game:GetService("ReplicatedStorage").Remotes.ShootTheBall:FireServer(unpack(args))
+
+
+		local args = {
+			[1] = 4.277876377105713
+		}
+
+		game:GetService("ReplicatedStorage").Remotes.cfactor:FireServer(unpack(args))
+
+
+		task.wait(0.2)
+
+		HM.CFrame = CFrame.new(-0.9847902655601501, 4.761514186859131, 20.33098030090332)
+
+		task.wait(0.3)
+		
+	until not BugarJogoEnabled
+end
+
+section4:addToggle("Bugar Jogo [TROLL]", nil, function(value)
+	BugarJogoEnabled = value
+	BugarJogo()
+end)
+
+
+
+local colors = {
+	[1] = "SkinTone1",
+	[2] = "SkinTone2",
+	[3] = "SkinTone3",
+	[4] = "SkinTone4"
+}
+
+
+
+section3:addButton("Cor Branca", function()
+	game:GetService("ReplicatedStorage").Remotes.Avatar:FireServer("SkinTone", colors[1])
+end)
+section3:addButton("Cor Branca(-1)", function()
+	game:GetService("ReplicatedStorage").Remotes.Avatar:FireServer("SkinTone", colors[2])
+end)
+section3:addButton("Cor Branca(-2)", function()
+	game:GetService("ReplicatedStorage").Remotes.Avatar:FireServer("SkinTone", colors[3])
+end)
+section3:addButton("Cor Escura", function()
+	game:GetService("ReplicatedStorage").Remotes.Avatar:FireServer("SkinTone", colors[4])
+end)
+
+
+local RGB_ColorEnabled = false
+
+local function ColorRGB()
+	if RGB_ColorEnabled then
+		repeat
+			for i,v in pairs(colors) do
+				game:GetService("ReplicatedStorage").Remotes.Avatar:FireServer("SkinTone", colors[i])
+				task.wait(0.1)
+			end
+			task.wait(0.1)
+		until not RGB_ColorEnabled
+	end
+end
+
+
+section3:addToggle("Cor RGB", nil, function(value)
+	RGB_ColorEnabled = value
+	ColorRGB()
+end)
+
+
+
+
+section5:addToggle("Remover Barreiras", nil, function(value)
+	venyx:Notify("Remover Barreiras", `Status: {value}`)
+end)
+
+local hitboxConnection
+
+
+section5:addSlider("GK Hitbox", 0, 0, 100, function(value)
+	local hitboxSize = Vector3.new(value,value,value) 
+	local transparency = 0.9
+
+	if hitboxConnection then
+		hitboxConnection:Disconnect()
+	end
+
+	hitboxConnection = game:GetService("RunService").Stepped:Connect(function()
+		local player = game.Players.LocalPlayer
+		if player.Character and player.Character:FindFirstChild("UpperTorso") and player.Character:FindFirstChild("LowerTorso") then
+			local upperTorso = player.Character:FindFirstChild("UpperTorso")
+			local lowerTorso = player.Character:FindFirstChild("LowerTorso")
+
+			upperTorso.Size = hitboxSize
+			lowerTorso.Size = hitboxSize
+			upperTorso.Transparency = transparency
+			lowerTorso.Transparency = transparency
+			upperTorso.CanCollide = false
+			lowerTorso.CanCollide = false
+			upperTorso.Massless = true
+			lowerTorso.Massless = true
+		end
+	end)
+end)
+
+
+
+local theme = venyx:addPage("Settings", 5012544693)
+local colors = theme:addSection("Colors")
+local KeytBindsFrame = theme:addSection("Keybinds")
+
+for theme, color in pairs(themes) do 
+	colors:addColorPicker(theme, color, function(color3)
+		venyx:setTheme(theme, color3)
+	end)
+end
+
+venyx:SelectPage(venyx.pages[1], true)
+
+KeytBindsFrame:addKeybind("Toggle Menu", Enum.KeyCode.One, function(a,key)
+	venyx:toggle()
+end, function(a)
+	configs_menu["OpenMenu"] = a.KeyCode
+	venyx:Notify("Key Menu Alterada", tostring(a.KeyCode))
+end)
