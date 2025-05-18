@@ -35,7 +35,7 @@ local UIAspectRatioConstraint_10 = Instance.new("UIAspectRatioConstraint")
 local UIAspectRatioConstraint_11 = Instance.new("UIAspectRatioConstraint")
 local Frame_5 = Instance.new("Frame")
 local UIAspectRatioConstraint_12 = Instance.new("UIAspectRatioConstraint")
-local Frame_6 = Instance.new("Frame")
+local linha = Instance.new("Frame")
 local UICorner_8 = Instance.new("UICorner")
 local UIAspectRatioConstraint_13 = Instance.new("UIAspectRatioConstraint")
 local UIAspectRatioConstraint_14 = Instance.new("UIAspectRatioConstraint")
@@ -205,17 +205,18 @@ Frame_5.Size = UDim2.new(0.975395918, 0, 0, 0)
 UIAspectRatioConstraint_12.Parent = Frame_5
 UIAspectRatioConstraint_12.AspectRatio = inf
 
-Frame_6.Parent = ScreenGui
-Frame_6.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
-Frame_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame_6.BorderSizePixel = 0
-Frame_6.Position = UDim2.new(0.25133118, 0, 0.247563347, 0)
-Frame_6.Size = UDim2.new(0.51235956, 0, 0.51121074, 0)
-Frame_6.ZIndex = 6
+linha.Name = "linha"
+linha.Parent = ScreenGui
+linha.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+linha.BorderColor3 = Color3.fromRGB(0, 0, 0)
+linha.BorderSizePixel = 0
+linha.Position = UDim2.new(0.25133118, 0, 0.247563347, 0)
+linha.Size = UDim2.new(0.51235956, 0, 0.51121074, 0)
+linha.ZIndex = 6
 
-UICorner_8.Parent = Frame_6
+UICorner_8.Parent = linha
 
-UIAspectRatioConstraint_13.Parent = Frame_6
+UIAspectRatioConstraint_13.Parent = linha
 UIAspectRatioConstraint_13.AspectRatio = 1.835
 
 UIAspectRatioConstraint_14.Parent = ScreenGui
